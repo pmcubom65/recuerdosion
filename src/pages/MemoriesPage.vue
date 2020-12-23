@@ -3,35 +3,33 @@
   <ion-header>
     <ion-toolbar>
       <ion-buttons >
-        <ion-back-button></ion-back-button>
+        <ion-back-button ></ion-back-button>
       </ion-buttons>
-      <ion-title>My Navigation Bar</ion-title>
+      <ion-title  class="ion-text-center">Recordatorios con Foto</ion-title>
     </ion-toolbar>
 
-    <ion-toolbar>
-      <ion-title>Subheader</ion-title>
-    </ion-toolbar>
   </ion-header>
 
   <!-- Header without a border -->
-  <ion-header class="ion-no-border">
-    <ion-toolbar>
-      <ion-title>Header - No Border</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
 
   <ion-content>
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">My Navigation Bar</ion-title>
-      </ion-toolbar>
-    </ion-header>
+ 
 
-    <ion-title>Estas son mis memorias</ion-title>
-<ion-button color="primary" @click="abrecamara">Primary</ion-button>
+    <ion-text  class="ion-text-center"><h1>Crear un recuerdo</h1></ion-text>
 
 
-{{test}}
+       <ion-textarea placeholder="Añada texto del recordatorio..." auto-grow="true" autocapitalize
+       autofocus="true" cols="4" rows="4" v-model="recuerdo">
+
+       </ion-textarea>
+
+
+
+<ion-button color="primary" size="large" expand="block" shape="round"  class="ion-text-center" @click="abrecamara">Hacer Foto</ion-button>
+
+
+
 
 
   </ion-content>
@@ -50,6 +48,7 @@ import {
   IonHeader, 
   IonPage,
   IonTitle, 
+   IonTextarea ,
   IonToolbar
 } from '@ionic/vue';
 export default {
@@ -59,6 +58,7 @@ export default {
   IonContent, 
   IonHeader, 
   IonPage,
+   IonTextarea ,
   IonTitle, 
   IonToolbar
     },
@@ -66,11 +66,13 @@ export default {
 
     data() {
       return {
-        test: null
+      recuerdo: ''
       }
     },
     
 methods: {
+
+
     abrecamara: function() {
       /*const CameraOptions = {
   quality: 100,
@@ -131,3 +133,41 @@ methods: {
 
 
 </script>
+
+<style scoped>
+ion-toolbar {
+  --min-height: 100px;
+  --padding-bottom: 5px;
+}
+
+ion-title {
+    position: absolute;
+    top: 0;
+    left: 30;
+    padding: 0 90px 1px;
+
+    height: 100%;
+    text-align: center;
+}
+
+
+
+.sc-ion-textarea-md-h {
+ background: black !important;
+ margin-left: 10px;
+ margin-right: 10px;
+ widows: 80%;
+ margin-top: 30px;
+ margin-bottom: 30px;
+  border-radius: 10px !important;
+  color: white !important;
+  color: white !important;
+  padding-bottom: 5px !important;
+padding-left: 5px !important;
+padding-right: 5px !important;
+padding-top: 5px !important;
+
+
+
+}
+</style>
