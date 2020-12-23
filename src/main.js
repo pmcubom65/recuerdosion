@@ -20,8 +20,12 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
+
+
 /* Theme variables */
 import './theme/variables.css';
+import './theme/core.css';
+
 
 const app = createApp(App)
   .use(IonicVue)
