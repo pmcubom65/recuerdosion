@@ -9,7 +9,7 @@
     </ion-toolbar>
     <micomponente></micomponente>
 
-    Soy muy cuñao
+   {{test}}
   </ion-page>
 </template>
 
@@ -28,6 +28,14 @@ export default {
     IonTitle,
     IonPage,
   },
+  data() {
+    return {
+      test: ''
+    }
+  },
+
+
+
   methods: {
     crearusuario: function (email) {
       let data = {
@@ -37,7 +45,7 @@ export default {
       };
   
 
-    const response=fetch('https://sleepy-tor-49836.herokuapp.com/api/smartchat/crearusuario', {
+    const response= fetch('https://sleepy-tor-49836.herokuapp.com/api/smartchat/crearusuario', {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -52,7 +60,18 @@ export default {
   });
 
 
-    console.log(response);
+ response.then(body=> {
+    console.log('id del usuario '+body.text().then((datos)=>{
+      console.log(datos)
+
+      this.$bus.$emit('id', datos.id)
+
+
+    }));
+    this.test=body;
+    })
+
+
 
 
     },
