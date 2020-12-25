@@ -2,10 +2,10 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-buttons>
+        <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">Recordatorios con Foto</ion-title>
+        <ion-title >Recordatorios con Foto</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -119,6 +119,8 @@ export default {
   },
 
   methods: {
+ 
+
     contruirid: function (ideu) {
       this.idusuario = ideu;
     },
@@ -137,7 +139,6 @@ export default {
     },
 
     mandaaviso: function () {
-      console.log("he hecho ckick");
 
       var tzoffset = new Date().getTimezoneOffset();
       var miDate = new Date(Date.now() - tzoffset * 60 * 1000);
@@ -150,7 +151,6 @@ export default {
       var elcontenido = this.recuerdo;
       var elusuario = this.idusuario;
 
-      console.log("el usauuaooido ?? " + elusuario);
 
       let creomensaje = {
         contenido: elcontenido,
@@ -215,16 +215,12 @@ export default {
         }
       );
 
-
-
-
-
-
       response.then((body) => {
         body.text().then((datos) => {
-            console.log(datos);
-        })
-        
+          console.log(datos);
+
+          setTimeout(() => this.$router.push({ path: "/" }), 1000);
+        });
       });
 
       LocalNotifications.schedule({
@@ -248,7 +244,7 @@ ion-toolbar {
 ion-title {
   position: absolute;
   top: 0;
-  left: 30;
+  left: 0;
   padding: 0 90px 1px;
 
   height: 100%;
