@@ -56,6 +56,7 @@
 import { Camera } from "@ionic-native/camera";
 
 import { LocalNotifications } from "@ionic-native/local-notifications";
+import { AppPreferences } from "@ionic-native/app-preferences";
 
 import {
   IonBackButton,
@@ -82,20 +83,32 @@ export default {
   },
   name: "MemoriesPage",
 
-    ionViewDidEnter() {
+  ionViewDidEnter() {
+    console.log("entrada en memorias");
 
-      this.$bus.$on('id', (valor)=>{
+    var suite = AppPreferences.suite("suiteName");
 
-        console.log('ha llegado este valor '+valor)
-      })
+    let that = this;
 
-    },
+    suite.fetch(
+      function (valor) {
+        var mistring = JSON.parse(valor);
+
+        that.contruirid(mistring.id);
+      },
+      function (err) {
+        console.log("fail " + err);
+      },
+      "id"
+    );
+  },
 
   data() {
     return {
       recuerdo: "",
       mifoto: "https://dummyimage.com/300x100/FFFFFF/000000&text=Incluya+Foto",
       mid: true,
+      idusuario: null,
     };
   },
 
@@ -106,13 +119,16 @@ export default {
   },
 
   methods: {
+    contruirid: function (ideu) {
+      this.idusuario = ideu;
+    },
+
     abrecamara: function () {
       Camera.getPicture({
         quality: 100,
         destinationType: Camera.DestinationType.DATA_URL,
       })
         .then((data) => {
-          console.log("Took a picture!", data);
           let base64Image = "data:image/jpeg;base64," + data;
           this.mifoto = base64Image;
           this.mid = false;
@@ -121,30 +137,69 @@ export default {
     },
 
     mandaaviso: function () {
+      console.log("he hecho ckick");
 
-        var tzoffset = new Date().getTimezoneOffset();
-        var miDate = new Date(Date.now() - tzoffset * 60 * 1000);
-        var m = miDate
-          .toISOString()
-          .slice(0, 19)
-          .replace(/-/g, "/")
-          .replace("T", " ");
+      var tzoffset = new Date().getTimezoneOffset();
+      var miDate = new Date(Date.now() - tzoffset * 60 * 1000);
+      var m = miDate
+        .toISOString()
+        .slice(0, 19)
+        .replace(/-/g, "/")
+        .replace("T", " ");
 
+      var elcontenido = this.recuerdo;
+      var elusuario = this.idusuario;
 
+      console.log("el usauuaooido ?? " + elusuario);
 
+      let creomensaje = {
+        contenido: elcontenido,
+        dia: m,
+        usuarioid: elusuario,
+        chatid: "",
+        idusuariorecepcion: "",
+      };
 
+      const responsemensaje = fetch(
+        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/crearmensaje",
+        {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: "follow", // manual, *follow, error
+          referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(creomensaje), // body data type must match "Content-Type" header
+        }
+      );
+
+      responsemensaje.then((body) => {
+        body.text().then((datos) => {
+          console.log("que ha llegado ooo" + datos);
+          var mimensaje = JSON.parse(datos);
+
+          this.guardararchivo(m, mimensaje.id);
+        });
+      });
+    },
+
+    guardararchivo: function (diag, idmensaje) {
       let datosaenviar = {
-        ID: "11",
+        ID: this.idusuario,
         IMAGEN: this.mifoto,
         EXTENSION: "JPEG",
-        DIA: m,
-        CHAT_ID: "",
-        EMISOR: "11",
+        DIA: diag,
+        MENSAJE_ID: idmensaje,
+        EMISOR: this.idusuario,
         RECEPTOR: "",
       };
 
       const response = fetch(
-        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/almacenarimagen",
+        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/almacenarrecuerdo",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -160,8 +215,16 @@ export default {
         }
       );
 
-      response.then((datar) => {
-        console.log(datar);
+
+
+
+
+
+      response.then((body) => {
+        body.text().then((datos) => {
+            console.log(datos);
+        })
+        
       });
 
       LocalNotifications.schedule({

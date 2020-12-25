@@ -9,7 +9,7 @@
     </ion-toolbar>
     <micomponente></micomponente>
 
-   {{test}}
+    {{ test }}
   </ion-page>
 </template>
 
@@ -20,6 +20,8 @@ import { GooglePlus } from "@ionic-native/google-plus";
 
 import { IonTitle } from "@ionic/vue";
 import { IonPage } from "@ionic/vue";
+import { AppPreferences } from "@ionic-native/app-preferences";
+
 //import { HTTP } from "@ionic-native/http";
 
 export default {
@@ -30,11 +32,9 @@ export default {
   },
   data() {
     return {
-      test: ''
-    }
+      test: "",
+    };
   },
-
-
 
   methods: {
     crearusuario: function (email) {
@@ -43,37 +43,44 @@ export default {
         nombre: email,
         token: email,
       };
-  
 
-    const response= fetch('https://sleepy-tor-49836.herokuapp.com/api/smartchat/crearusuario', {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
+      const response = fetch(
+        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/crearusuario",
+        {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: "follow", // manual, *follow, error
+          referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }
+      );
 
+      response.then((body) => {
+        body.text().then((datos) => {
+          console.log(datos);
 
- response.then(body=> {
-    console.log('id del usuario '+body.text().then((datos)=>{
-      console.log(datos)
+          // AppPreferences.store(function(valor){console.log('ok '+valor.json())}, function(err){console.log('fail '+err.json())}, 'id', 'soycunao');
 
-      this.$bus.$emit('id', datos.id)
+          var suite = AppPreferences.suite("suiteName");
 
-
-    }));
-    this.test=body;
-    })
-
-
-
-
+          suite.store(
+            function (valor) {
+              console.log("ok " + valor);
+            },
+            function (err) {
+              console.log("fail " + err);
+            },
+            "id",
+            datos
+          );
+        });
+      });
     },
   },
 
@@ -108,12 +115,12 @@ ion-toolbar {
 }
 
 ion-title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0 90px 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 90px 1px;
 
-    height: 100%;
-    text-align: center;
+  height: 100%;
+  text-align: center;
 }
 </style>
