@@ -16,12 +16,15 @@
 
 
     <ion-item>
+          <ion-icon name="profile"></ion-icon>
       <ion-label>Mi Perfil</ion-label>
     </ion-item>
     <ion-item>
+           <ion-icon name="add"></ion-icon>
       <ion-label><router-link to="/memories">Crear Recordatorio</router-link></ion-label>
     </ion-item>
     <ion-item>
+                 <ion-icon name="extension"></ion-icon>
       <ion-label>Mis Recordatorios</ion-label>
     </ion-item>
 
@@ -34,6 +37,16 @@
 
 
 <script>
+import { bodyOutline, imagesOutline, extensionPuzzleOutline  } from "ionicons/icons";
+import { addIcons } from "ionicons";
+
+addIcons({
+  "profile":  bodyOutline,
+  "add" :  imagesOutline,
+  "extension" : extensionPuzzleOutline,
+
+
+});
 
 export default {
     name: 'Micomponente'
@@ -43,7 +56,7 @@ export default {
 <style scoped>
 ion-list {
 
-    margin-top: 250px !important;
+    margin-top: 100px !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
 
@@ -55,10 +68,19 @@ ion-item, ion-content {
 
 }
 
+img {
+  margin-bottom: 4rem !important;
+  margin-left: 4rem;
+}
 
+ion-icon {
+  color:white !important;
+  font-size: 30px; 
+  margin-right: 1rem;
+}
 
 #imagentitulo {
-    height: 50px;
+    height: 70px;
     width: auto;
 }
 
