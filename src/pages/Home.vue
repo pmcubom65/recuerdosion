@@ -6,7 +6,7 @@
 
            <ion-title class="ion-text-center">Recordatorios con Foto</ion-title>
              <ion-buttons end>
-      <button @click="openStart()">
+      <button   ion-button icon-start  @click="openStart()">
     <ion-icon name="menu"></ion-icon>
   </button>
  
@@ -58,11 +58,19 @@ import * as moment from "moment";
 
 import Modal from '../components/Modal.vue'
 
+import { menu } from "ionicons/icons";
+import { addIcons } from "ionicons";
+
+addIcons({
+  "menu": menu
+});
+
 //import { HTTP } from "@ionic-native/http";
 
 export default {
   components: {
     Micomponente,
+    
     IonTitle,
     IonPage,
     IonIcon,
@@ -259,12 +267,15 @@ ion-spinner {
     margin-left: 50%;
 }
 
+button {
+  background-color: var(--ion-color-primary);
 
-
-.ion-md-menu{
-	color: white !important;
 }
 
+ion-icon {
+  color:white !important;
+  font-size: 30px; 
+}
 
 </style>
 
