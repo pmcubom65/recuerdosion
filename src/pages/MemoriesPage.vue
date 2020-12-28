@@ -37,9 +37,10 @@
         >Hacer Foto</ion-button
       >
 
-      <ion-img :src="mifoto"></ion-img>
+      <ion-img  v-if="hizofoto" :src="mifoto"></ion-img>
 
       <ion-button
+        v-if="hizofoto"
         color="primary"
         size="large"
         expand="block"
@@ -109,6 +110,7 @@ export default {
       mifoto: "https://dummyimage.com/300x100/FFFFFF/000000&text=Incluya+Foto",
       mid: true,
       idusuario: null,
+      hizofoto: false
     };
   },
 
@@ -134,6 +136,7 @@ export default {
           let base64Image = "data:image/jpeg;base64," + data;
           this.mifoto = base64Image;
           this.mid = false;
+          this.hizofoto=true;
         })
         .catch((e) => console.log("Error occurred while taking a picture", e));
     },
@@ -219,6 +222,12 @@ export default {
         body.text().then((datos) => {
           console.log(datos);
 
+       this.recuerdo= "";
+        this.mifoto= "https://dummyimage.com/300x100/FFFFFF/000000&text=Incluya+Foto";
+        this.mid= true;
+        this.idusuario=null;
+        this.hizofoto= false;
+
           setTimeout(() => this.$router.push({ path: "/" }), 1000);
         });
       });
@@ -237,7 +246,7 @@ export default {
 
 <style scoped>
 ion-toolbar {
-  --min-height: 100px;
+  --min-height: 80px;
   --padding-bottom: 5px;
 }
 

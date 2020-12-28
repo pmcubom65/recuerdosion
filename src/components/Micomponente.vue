@@ -1,6 +1,6 @@
 <template>
-    <ion-app>
-  <ion-menu contentId="content1" side="start" >
+ 
+  <ion-menu  side="start"  content-id="content" >
     <ion-header>
       <ion-toolbar>
         <ion-title>Menu</ion-title>
@@ -28,12 +28,13 @@
   </ion-list>
     </ion-content>
   </ion-menu>
-  <ion-router-outlet id="content1" main></ion-router-outlet>
-</ion-app>
+  <ion-menu-controller></ion-menu-controller>
+   
 </template>
 
 
 <script>
+
 export default {
     name: 'Micomponente'
 }
