@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">com.pedromanuelcubo</string>
-    <string name="title_activity_main">com.pedromanuelcubo</string>
+    <string name="app_name">Recordatorios con Foto</string>
+    <string name="title_activity_main">Recordatorios con Foto</string>
     <string name="package_name">com.pedromanuelcubo</string>
     <string name="custom_url_scheme">com.pedromanuelcubo</string>
 </resources>

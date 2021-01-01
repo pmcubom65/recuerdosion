@@ -32,6 +32,7 @@ export default defineComponent({
     foto: { type: String, default: "" },
     id: { type: String, default: "" },
   },
+
   methods: {
     goback: function () {
       modalController.dismiss();
@@ -43,7 +44,7 @@ export default defineComponent({
       };
 
       const borrado = fetch(
-        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/borrarrecuerdo",
+        "https://sleepy-tor-49837.herokuapp.com/api/smartchat/borrarrecuerdo",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -63,19 +64,19 @@ export default defineComponent({
         body.text().then((b) => {
           var mib = JSON.parse(b);
  
-            modalController.dismiss();
-
-            this.alertar(mib)
+          modalController.dismiss(mib);
+  
+           this.alertar()
    
        
         });
       });
     },
 
-          async alertar(mib){
+          async alertar(){
               const toast = await toastController
         .create({
-          message: 'Mensaje Borrado '+mib,
+          message: 'Mensaje Borrado',
           duration: 2000
         })
        await toast.present();

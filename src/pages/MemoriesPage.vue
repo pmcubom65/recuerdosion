@@ -11,7 +11,7 @@
 
     <!-- Header without a border -->
 
-    <ion-content>
+    <ion-content v-if="principal">
       <ion-text class="ion-text-center"><h2>Crear un recuerdo</h2></ion-text>
 
       <ion-textarea
@@ -31,15 +31,14 @@
         size="large"
         expand="block"
         shape="round"
+        v-if="!hizofoto"
         class="ion-text-center"
         :disabled="mif"
         @click="abrecamara"
         >Hacer Foto</ion-button
       >
 
-      <ion-img  v-if="hizofoto" :src="mifoto"></ion-img>
-
-      <ion-button
+            <ion-button
         v-if="hizofoto"
         color="primary"
         size="large"
@@ -50,6 +49,17 @@
         @click="mandaaviso"
         >Confirmar</ion-button
       >
+
+      <ion-img  v-if="hizofoto" :src="mifoto"></ion-img>
+
+
+    </ion-content>
+
+    <ion-content v-else>
+
+ <ion-spinner   name="crescent" color="primary"></ion-spinner>
+
+
     </ion-content>
   </ion-page>
 </template>
@@ -69,12 +79,14 @@ import {
   IonTitle,
   IonTextarea,
   IonToolbar,
+   IonSpinner
 } from "@ionic/vue";
 export default {
   components: {
     IonBackButton,
     IonImg,
     IonButtons,
+     IonSpinner,
     IonContent,
     IonHeader,
     IonPage,
@@ -85,7 +97,7 @@ export default {
   name: "MemoriesPage",
 
   ionViewDidEnter() {
-    console.log("entrada en memorias");
+
 
     var suite = AppPreferences.suite("suiteName");
 
@@ -110,7 +122,8 @@ export default {
       mifoto: "https://dummyimage.com/300x100/FFFFFF/000000&text=Incluya+Foto",
       mid: true,
       idusuario: null,
-      hizofoto: false
+      hizofoto: false,
+      principal: true
     };
   },
 
@@ -125,6 +138,7 @@ export default {
 
     contruirid: function (ideu) {
       this.idusuario = ideu;
+      this.principal=true;
     },
 
     abrecamara: function () {
@@ -142,6 +156,8 @@ export default {
     },
 
     mandaaviso: function () {
+
+      this.principal=false;
 
       var tzoffset = new Date().getTimezoneOffset();
       var miDate = new Date(Date.now() - tzoffset * 60 * 1000);
@@ -164,7 +180,7 @@ export default {
       };
 
       const responsemensaje = fetch(
-        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/crearmensaje",
+        "https://sleepy-tor-49837.herokuapp.com/api/smartchat/crearmensaje",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -182,7 +198,7 @@ export default {
 
       responsemensaje.then((body) => {
         body.text().then((datos) => {
-          console.log("que ha llegado ooo" + datos);
+
           var mimensaje = JSON.parse(datos);
 
           this.guardararchivo(m, mimensaje.id);
@@ -202,7 +218,7 @@ export default {
       };
 
       const response = fetch(
-        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/almacenarrecuerdo",
+        "https://sleepy-tor-49837.herokuapp.com/api/smartchat/almacenarrecuerdo",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -223,12 +239,18 @@ export default {
           console.log(datos);
 
        this.recuerdo= "";
-        this.mifoto= "https://dummyimage.com/300x100/FFFFFF/000000&text=Incluya+Foto";
+        this.mifoto= "";
         this.mid= true;
         this.idusuario=null;
         this.hizofoto= false;
 
-          setTimeout(() => this.$router.push({ path: "/" }), 1000);
+          setTimeout(() =>{
+            
+            
+             this.$router.push({ path: "/" });
+             
+              this.principal=false;
+             }, 800);
         });
       });
 
@@ -237,7 +259,7 @@ export default {
         text: "Has guardado tu aviso correctamente",
         sound: null,
         data: null,
-        icon: "/assets/icon/icon.png",
+        icon: "assets/icon/icon.png",
       });
     },
   },
@@ -260,6 +282,8 @@ ion-title {
   text-align: center;
 }
 
+
+
 .sc-ion-textarea-md-h {
   background: #e30052 !important;
   display: block;
@@ -275,5 +299,11 @@ ion-title {
   padding-left: 5px !important;
   padding-right: 5px !important;
   padding-top: 5px !important;
+}
+
+ion-spinner {
+    transform: scale(3);
+    margin-top: 30%;
+    margin-left: 50%;
 }
 </style>

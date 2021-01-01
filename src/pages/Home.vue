@@ -42,6 +42,7 @@
         </ion-card-header>
         <ion-card-content> </ion-card-content>
       </ion-card>
+
     </ion-content>
   </ion-page>
 </template>
@@ -80,7 +81,8 @@ export default {
   data() {
     return {
       losrecuerdos: Array,
-      hacargado: true
+      hacargado: true,
+      elid: ''
     };
   },
 
@@ -103,7 +105,18 @@ export default {
             
           },
         })
-      return modal.present();
+
+      modal.present();
+
+      let modalResponse = await modal.onDidDismiss();
+
+      if (modalResponse.data!=null){
+        this.dameRecuerdos(this.elid);
+      }
+
+
+  
+    
     },
 
 
@@ -127,7 +140,7 @@ export default {
       };
 
       const response = fetch(
-        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/crearusuario",
+        "https://sleepy-tor-49837.herokuapp.com/api/smartchat/crearusuario",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -170,12 +183,15 @@ export default {
     },
 
     dameRecuerdos: function (idusuario) {
+
+      this.elid=idusuario;
+
       let datosusuario = {
         id: idusuario,
       };
 
       const responserecuerdos = fetch(
-        "https://sleepy-tor-49836.herokuapp.com/api/smartchat/damerecuerdos",
+        "https://sleepy-tor-49837.herokuapp.com/api/smartchat/damerecuerdos",
         {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -212,10 +228,12 @@ export default {
         "1057749725019-rq5bi47cri1mg4lloq354bj2trerbltr.apps.googleusercontent.com",
     })
       .then((res) => {
-        console.log(res.email);
+        console.log(res);
         this.crearusuario(res.email);
       })
       .catch((err) => console.error(err));
+
+
   },
   ionViewDidLeave() {
     console.log("Home page did leave");
@@ -226,6 +244,8 @@ export default {
   ionViewWillLeave() {
     console.log("Home page will leave");
   },
+
+
 };
 </script>
 <style scoped>

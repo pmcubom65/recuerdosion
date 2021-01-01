@@ -1,6 +1,6 @@
 {
   "appId": "com.pedromanuelcubo",
-  "appName": "com.pedromanuelcubo",
+  "appName": "Recordatorios con Foto",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
