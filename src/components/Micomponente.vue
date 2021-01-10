@@ -11,9 +11,9 @@
           <img id="imagentitulo" src="assets/icon/icon.png" />
         </ion-item>
 
-        <ion-item>
+        <ion-item @click="irCorreo()">
           <ion-icon name="profile"></ion-icon>
-          <ion-label>Mi Perfil</ion-label>
+          <ion-label>Mi Perfil Correo</ion-label>
         </ion-item>
         <ion-item @click="irRec()">
           <ion-icon name="add"></ion-icon>
@@ -32,6 +32,8 @@
 
 <script>
 import { menuController} from "@ionic/vue";
+import {Plugins} from '@capacitor/core'
+
 import {
   bodyOutline,
   imagesOutline,
@@ -55,6 +57,12 @@ export default {
       menuController.close();
       setTimeout(() => this.$router.push({ path: "/" }), 500);
     },
+    irCorreo: function() {
+      Plugins.App.openUrl({ url: 'com.google.android.gm' });
+
+      
+       
+    }
   },
 };
 </script>
