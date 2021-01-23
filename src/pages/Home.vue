@@ -20,7 +20,7 @@
       <ion-card v-else-if="!hacargado && losrecuerdos.length===0">
    
            <ion-card-header>
-          <ion-card-title>No tiene registrado ningún recordatorio aún</ion-card-title>
+          <ion-card-title>{{mierror}}</ion-card-title>
            </ion-card-header>
       </ion-card>
 
@@ -82,7 +82,8 @@ export default {
     return {
       losrecuerdos: Array,
       hacargado: true,
-      elid: ''
+      elid: '',
+      mierror: 'No tiene registrado ningún recordatorio aún'
     };
   },
 
@@ -225,13 +226,17 @@ export default {
   ionViewDidEnter() {
     GooglePlus.login({
       webClientId:
-        "1057749725019-rq5bi47cri1mg4lloq354bj2trerbltr.apps.googleusercontent.com",
+        "1057749725019-rq5bi47cri1mg4lloq354bj2trerbltr.apps.googleusercontent.com"
     })
       .then((res) => {
         console.log(res);
         this.crearusuario(res.email);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        this.hacargado=false;
+        this.mierror=err;
+      });
 
 
   },
